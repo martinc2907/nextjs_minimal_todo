@@ -1,6 +1,6 @@
 import React from "react"
 
-const API_ENDPOINT = "nextjs-minimal-todo.vercel.app"
+const API_ENDPOINT = "http://nextjs-minimal-todo.vercel.app"
 
 //SSR
 export async function getServerSideProps() {
