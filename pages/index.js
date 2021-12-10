@@ -65,8 +65,8 @@ class TodoList extends React.Component {
         <br></br>
         <button onClick={this.clearTodo}>clear entire list</button>
         <ul>
-          {this.state.todoList.map((todo) => (
-            <li>
+          {this.state.todoList.map((todo, idx) => (
+            <li key={idx}>
               <div>
                 {todo + " "}
                 <button
