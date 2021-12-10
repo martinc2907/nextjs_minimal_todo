@@ -1,11 +1,11 @@
 import React from "react"
 
-const API_ENDPOINT = "http://localhost:3000"
+const API_ENDPOINT = "nextjs-minimal-todo.vercel.app"
 
 //SSR
 export async function getServerSideProps() {
-  const apiPath = "http://localhost:3000/api/list"
-  const res = await fetch(apiPath)
+  const apiPath = API_ENDPOINT + "/api/list"
+  const res = await fetch("/api/list")
   const list = await res.json()
   return {
     props: {
