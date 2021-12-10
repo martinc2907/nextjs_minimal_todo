@@ -3,16 +3,10 @@ import { UPSTASH_AUTH, UPSTASH_ENDPOINT } from "../../lib/upstash_url"
 //get list of todos
 export default async (req, res) => {
   const url = UPSTASH_ENDPOINT + "/lrange/todo/0/100"
-  return fetch(url, {
-    headers: {
-      Authorization: UPSTASH_AUTH,
-    },
+  const response = await fetch(url, {
+    headers: { Authorization: UPSTASH_AUTH },
   })
-    .then((r) => {
-      return r.json()
-    })
-    .then((data) => {
-      let result = JSON.stringify(data.result)
-      return res.status(200).json(result)
-    })
+  const json = await response.json()
+  const dataString = JSON.stringify(json.result)
+  return res.status(200).json(dataString)
 }
