@@ -1,8 +1,4 @@
-import Head from "next/head"
-import Image from "next/image"
-import path, { resolve } from "path"
 import React from "react"
-import styles from "../styles/Home.module.css"
 
 const API_ENDPOINT = "http://localhost:3000"
 
@@ -25,6 +21,13 @@ class TodoList extends React.Component {
       todoList: props.todoList,
       formValue: "",
     }
+  }
+
+  removeTodo = async (todo) => {
+    await fetch(new URL("/api/remove?todo=" + todo, API_ENDPOINT))
+    fetch(new URL("/api/list", API_ENDPOINT))
+      .then((res) => res.json())
+      .then((data) => this.setState({ todoList: data }))
   }
 
   addTodo = async (event) => {
@@ -50,7 +53,7 @@ class TodoList extends React.Component {
   render() {
     return (
       <div>
-        <h1>Todo list</h1>
+        <h1>Todo list using plain react </h1>
         <form onSubmit={this.addTodo}>
           <input
             type="text"
@@ -59,10 +62,22 @@ class TodoList extends React.Component {
             onChange={this.handleFormInputChange}
           />
         </form>
-        <button onClick={this.clearTodo}>clear</button>
+        <br></br>
+        <button onClick={this.clearTodo}>clear entire list</button>
         <ul>
           {this.state.todoList.map((todo) => (
-            <li>{todo}</li>
+            <li>
+              <div>
+                {todo + " "}
+                <button
+                  onClick={() => {
+                    this.removeTodo(todo)
+                  }}
+                >
+                  remove
+                </button>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
