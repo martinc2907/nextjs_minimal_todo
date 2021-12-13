@@ -1,11 +1,10 @@
 import React from "react"
-
-const API_ENDPOINT = "http://nextjs-minimal-todo.vercel.app"
+import { env } from "../next.config"
 
 //SSR
 export async function getServerSideProps() {
-  const apiPath = API_ENDPOINT + "/api/list"
-  const res = await fetch("/api/list")
+  const res = await fetch(`${env.ROOT}/api/list`)
+  console.log(res)
   const list = await res.json()
   return {
     props: {
@@ -24,8 +23,8 @@ class TodoList extends React.Component {
   }
 
   removeTodo = async (todo) => {
-    await fetch(new URL("/api/remove?todo=" + todo, API_ENDPOINT))
-    fetch(new URL("/api/list", API_ENDPOINT))
+    await fetch("/api/remove?todo=" + todo)
+    fetch("/api/list")
       .then((res) => res.json())
       .then((data) => this.setState({ todoList: data }))
   }
@@ -34,15 +33,14 @@ class TodoList extends React.Component {
     const todo = this.state.formValue
     event.preventDefault()
     this.setState({ formValue: "" })
-    await fetch(new URL("/api/add?todo=" + todo, API_ENDPOINT))
-    fetch(new URL("/api/list", API_ENDPOINT))
+    await fetch("/api/add?todo=" + todo)
+    fetch("/api/list")
       .then((res) => res.json())
       .then((data) => this.setState({ todoList: data }))
   }
 
   clearTodo = async (event) => {
-    const url = new URL("/api/clear", API_ENDPOINT)
-    await fetch(url)
+    await fetch("/api/clear")
     this.setState({ todoList: [] })
   }
 
