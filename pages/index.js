@@ -3,7 +3,7 @@ import { env } from "../next.config"
 
 //SSR
 export async function getServerSideProps() {
-  const res = await fetch(`${env.ROOT}/api/list`)
+  const res = await fetch(`${process.env.ROOT}/api/list`)
   console.log(res)
   const list = await res.json()
   return {
